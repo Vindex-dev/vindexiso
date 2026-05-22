@@ -181,7 +181,11 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 shutil.copy(f"{SCRIPT_DIR}/firstboot.sh", f"{MOUNT}/root/firstboot.sh")
 run(f"chmod +x {MOUNT}/root/firstboot.sh")
 shutil.copy(f"{SCRIPT_DIR}/firstboot.service", f"{MOUNT}/etc/systemd/system/firstboot.service")
-
+with open(f"{MOUNT}/root/firstboot.sh", "r") as f:
+    content = f.read()
+content = content.replace("${1:-", f"{USERNAME}")
+with open(f"{MOUNT}/root/firstboot.sh", "w") as f:
+    f.write(content)
 chroot("systemctl enable firstboot.service")
 
 progress(98, "Unmounting...")
