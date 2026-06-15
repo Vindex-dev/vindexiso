@@ -65,7 +65,7 @@ except subprocess.CalledProcessError:
 
 progress(8, "Updating mirrors with reflector...")
 run("pacman -Sy --noconfirm reflector 2>/dev/null || true")
-run("reflector --latest 20 --sort rate --save /etc/pacman.d/mirrorlist 2>/dev/null || true")
+run("reflector --latest 20 --sort rate --download-timeout 5 --protocol https --save /etc/pacman.d/mirrorlist 2>/dev/null || true")
 
 progress(10, f"Partitioning /dev/{ROOT_DISK}...")
 run(f"parted /dev/{ROOT_DISK} --script mklabel gpt")
